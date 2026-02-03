@@ -1,0 +1,257 @@
+📌 Replit Project Prompt (Vercel-First)
+
+Project Name: Appointment Booking System for Local Businesses
+
+🎯 Goal
+
+Build a modern, full-stack appointment booking web application for local businesses such as doctors, salons, gyms, and tutors.
+
+The system must:
+
+Make appointment booking fast and effortless for customers
+
+Provide a clean, distraction-free dashboard for business owners
+
+Be production-ready and deployable entirely on Vercel, using serverless APIs
+
+🛠️ Tech Stack (Strict)
+Frontend
+
+React (Vite)
+
+JavaScript only (.js and .jsx)
+
+Tailwind CSS (or modern CSS)
+
+AnimeJS for smooth UI transitions
+
+Fully responsive (mobile, tablet, desktop)
+
+Backend
+
+Node.js serverless APIs (Vercel Functions)
+
+Express-style routing inside API functions
+
+JavaScript only (.js)
+
+JWT authentication
+
+Database
+
+MongoDB (MongoDB Atlas)
+
+Email
+
+EmailJS (client-side email service)
+
+Used for:
+
+Appointment confirmation
+
+Cancellation notifications
+
+🚀 Deployment Requirements
+
+Primary deployment: Vercel
+
+Frontend hosted on Vercel
+
+Backend via Vercel serverless functions (/api/*)
+
+Render: Use only if absolutely necessary (avoid by default)
+
+Environment variables configured for:
+
+MongoDB URI
+
+JWT Secret
+
+EmailJS credentials
+
+🎨 UI / UX Requirements
+
+Modern, minimalistic design
+
+Clean spacing, readable typography
+
+Subtle shadows and soft colors
+
+No clutter
+
+Strong focus on usability
+
+UX Goals
+
+Customer should book an appointment in under 30 seconds
+
+Admin dashboard should feel calm and intuitive
+
+Navigation should be obvious without tooltips or explanations
+
+🎞️ Animations (AnimeJS – Mandatory)
+
+Use AnimeJS for:
+
+Page transitions
+
+Modal open/close animations
+
+Button hover and click feedback
+
+Success and error states
+
+Animations should be:
+
+Smooth
+
+Fast
+
+Subtle
+
+Performance-friendly
+
+🔐 Authentication & Roles
+
+Implement role-based authentication using JWT:
+
+Customer
+
+View available slots
+
+Book appointments
+
+View booking history
+
+Admin (Business Owner)
+
+Manage time slots (CRUD)
+
+Block dates / holidays
+
+View and cancel bookings
+
+Access admin-only dashboard
+
+Protect routes based on role.
+
+🧩 Core Features
+🗓️ Time Slot Management (Admin)
+
+Create, update, delete time slots
+
+Each slot includes:
+
+Date
+
+Start time
+
+End time
+
+Maximum bookings
+
+Block specific dates (holidays, unavailable days)
+
+📖 Appointment Booking (Customer)
+
+View only available slots
+
+Prevent double booking
+
+Book appointment with:
+
+Name
+
+Email
+
+Selected slot
+
+Show booking status clearly
+
+📊 Admin Dashboard
+
+View all bookings
+
+Filter bookings by date
+
+Cancel bookings
+
+Simple stats:
+
+Today’s bookings
+
+Upcoming appointments
+
+✉️ Email Notifications (EmailJS)
+
+Use EmailJS to:
+
+Send confirmation email after booking
+
+Send cancellation email when booking is cancelled
+
+Emails should be:
+
+Simple
+
+Clear
+
+Professional
+
+🧠 Database Models (MongoDB)
+
+Implement full CRUD for:
+
+User
+
+name, email, role, password
+
+TimeSlot
+
+date, startTime, endTime, capacity
+
+Booking
+
+userId, slotId, status
+
+BlockedDate
+
+date, reason
+
+Ensure clean relationships and validations.
+
+📱 Responsiveness
+
+Mobile-first layout
+
+Touch-friendly buttons
+
+Collapsible navigation on small screens
+
+No horizontal scroll issues
+
+📦 Deliverables
+
+Fully functional full-stack app
+
+Clean folder structure
+
+Vercel-ready configuration
+
+Seed data for demo
+
+Clear README with:
+
+Local setup
+
+Vercel deployment steps
+
+⭐ Extra (Optional Enhancements)
+
+Calendar-style slot picker
+
+Dark mode
+
+Admin analytics charts
+
+Multi-business support (future SaaS upgrade)
