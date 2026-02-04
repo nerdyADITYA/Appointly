@@ -65,24 +65,21 @@ async function registerRoutes(httpServer, app) {
   // Serve uploads directory
   app.use("/uploads", express.static("uploads"));
 
-  // Multer setup
-  const storageConfig = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "uploads/");
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-  });
+  // Multer setup (Memory Storage for Vercel)
+  const storageConfig = multer.memoryStorage();
   const upload = multer({ storage: storageConfig });
 
   app.post("/api/upload", upload.single("file"), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-    // Return the URL to access the file
-    res.json({ url: `/uploads/${req.file.filename}` });
+    // Convert buffer to Base64 Data URI
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    const mimeType = req.file.mimetype;
+    const dataURI = `data:${mimeType};base64,${b64}`;
+
+    // Return the Data URI directly
+    res.json({ url: dataURI });
   });
 
   app.post("/api/send-otp", async (req, res) => {
