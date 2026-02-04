@@ -26,7 +26,7 @@ const crypto = {
 
 function setupAuth(app) {
   const sessionSettings = {
-    secret: process.env.SESSION_SECRET || "replit-secret",
+    secret: process.env.SESSION_SECRET || "appointly-secret",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({

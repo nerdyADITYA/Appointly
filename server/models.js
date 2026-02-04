@@ -28,7 +28,7 @@ const timeSlotSchema = new mongoose.Schema({
 const bookingSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     slotId: { type: mongoose.Schema.Types.ObjectId, ref: "TimeSlot", required: true },
-    status: { type: String, enum: ["confirmed", "cancelled"], default: "confirmed", required: true },
+    status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending", required: true },
     createdAt: { type: Date, default: Date.now }
 }, { toJSON: { virtuals: true } });
 

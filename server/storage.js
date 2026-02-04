@@ -27,7 +27,18 @@ class DatabaseStorage {
     } else if (filters?.startDate && filters?.endDate) {
       query.date = { $gte: filters.startDate, $lte: filters.endDate };
     }
-    return await TimeSlot.find(query).sort({ date: 1, startTime: 1 });
+    const slots = await TimeSlot.find(query).sort({ date: 1, startTime: 1 });
+
+    // Dynamically calculate booked count
+    return await Promise.all(slots.map(async (slot) => {
+      const count = await Booking.countDocuments({
+        slotId: slot._id,
+        status: { $in: ["pending", "confirmed"] }
+      });
+      const slotObj = slot.toJSON();
+      slotObj.bookedCount = count;
+      return slotObj;
+    }));
   }
 
   async getSlot(id) {

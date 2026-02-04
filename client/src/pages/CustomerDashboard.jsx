@@ -31,8 +31,8 @@ function CustomerDashboard() {
     try {
       await createBooking.mutateAsync({ slotId: selectedSlot.id });
       toast({
-        title: "Booking Confirmed!",
-        description: `You are booked for ${selectedSlot.date} at ${selectedSlot.startTime}.`
+        title: "Booking Requested",
+        description: `Your appointment request for ${selectedSlot.date} at ${selectedSlot.startTime} is pending approval.`
       });
       setSelectedSlot(null);
     } catch (error) {
