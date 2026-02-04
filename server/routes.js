@@ -261,6 +261,48 @@ async function registerRoutes(httpServer, app) {
     res.json(updated);
   });
 
+  app.patch(api.bookings.confirm.path, async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Login required" });
+    }
+    // Only admin can confirm bookings
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+
+    const id = req.params.id;
+    const booking = await storage.getBooking(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    if (booking.status === "confirmed") {
+      return res.status(400).json({ message: "Booking already confirmed" });
+    }
+
+    const updated = await storage.confirmBooking(id);
+
+    // If we're confirming a cancelled booking, we need to increment the slot count again
+    if (booking.status === "cancelled") {
+      const slot = await storage.getSlot(booking.slotId);
+      if (slot && slot.bookedCount < slot.capacity) {
+        await storage.updateSlotBookingCount(booking.slotId, 1);
+      } else {
+        // Should we fail if slot is full? 
+        // For now let's assume admin override or just increment anyway if that's the desired behavior.
+        // But logic dictates we should check capacity.
+        // Let's increment regardless for admin override or just simpler logic for now matching the request implicitly.
+        // ACTUALLY, checking capacity is safer.
+        if (slot && slot.bookedCount >= slot.capacity) {
+          return res.status(400).json({ message: "Slot is fully booked, cannot confirm." });
+        }
+        await storage.updateSlotBookingCount(booking.slotId, 1);
+      }
+    }
+
+    res.json(updated);
+  });
+
   app.get(api.blockedDates.list.path, async (req, res) => {
     const dates = await storage.getBlockedDates();
     res.json(dates);

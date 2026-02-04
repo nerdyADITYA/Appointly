@@ -50,8 +50,27 @@ function useCancelBooking() {
     }
   });
 }
+function useConfirmBooking() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => {
+      const url = buildUrl(api.bookings.confirm.path, { id });
+      const res = await fetch(url, {
+        method: api.bookings.confirm.method,
+        credentials: "include"
+      });
+      if (!res.ok) throw new Error("Failed to confirm booking");
+      return api.bookings.confirm.responses[200].parse(await res.json());
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.bookings.list.path] });
+      queryClient.invalidateQueries({ queryKey: [api.slots.list.path] });
+    }
+  });
+}
 export {
   useBookings,
   useCancelBooking,
-  useCreateBooking
+  useCreateBooking,
+  useConfirmBooking
 };

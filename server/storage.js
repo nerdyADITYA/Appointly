@@ -88,6 +88,10 @@ class DatabaseStorage {
     return await Booking.findByIdAndUpdate(id, { status: "cancelled" }, { new: true });
   }
 
+  async confirmBooking(id) {
+    return await Booking.findByIdAndUpdate(id, { status: "confirmed" }, { new: true });
+  }
+
   // Blocked Dates
   async getBlockedDates() {
     return await BlockedDate.find().sort({ date: 1 });

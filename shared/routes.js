@@ -112,6 +112,15 @@ const api = {
         404: errorSchemas.notFound,
         403: errorSchemas.unauthorized
       }
+    },
+    confirm: {
+      method: "PATCH",
+      path: "/api/bookings/:id/confirm",
+      responses: {
+        200: z.custom(),
+        404: errorSchemas.notFound,
+        403: errorSchemas.unauthorized
+      }
     }
   },
   blockedDates: {
