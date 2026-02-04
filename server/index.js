@@ -43,7 +43,11 @@ app.use((req, res, next) => {
   });
   next();
 });
+let initialized = false;
+
 const startServer = async () => {
+  if (initialized) return app;
+
   await registerRoutes(httpServer, app);
 
   app.use((err, _req, res, next) => {
@@ -78,6 +82,7 @@ const startServer = async () => {
     );
   }
 
+  initialized = true;
   return app;
 };
 

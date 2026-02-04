@@ -9,7 +9,7 @@ function serveStatic(app) {
     );
   }
   app.use(express.static(distPath));
-  app.use("/{*path}", (_req, res) => {
+  app.use("*", (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
