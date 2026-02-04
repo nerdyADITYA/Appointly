@@ -5,6 +5,7 @@ import { z } from "zod";
 import { addDays, format, setHours, setMinutes } from "date-fns";
 import { OTP, User } from "./models.js";
 import { sendOtp } from "./email.js";
+import { sendBookingNotification } from "./mailer.js";
 import multer from "multer";
 import express from "express";
 import path from "path";
@@ -221,6 +222,16 @@ async function registerRoutes(httpServer, app) {
         status: "confirmed"
       });
       await storage.updateSlotBookingCount(slotId, 1);
+
+      // Send Admin Notification (Fire and forget)
+      sendBookingNotification({
+        customerName: req.user.name,
+        customerEmail: req.user.email,
+        customerPhone: req.user.phone,
+        date: slot.date,
+        time: `${slot.startTime} - ${slot.endTime}`
+      }).catch(err => console.error("Notification Error:", err));
+
       res.status(201).json(booking);
     } catch (err) {
       console.error("Booking Create Error:", err.message);
