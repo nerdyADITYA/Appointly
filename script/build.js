@@ -32,6 +32,11 @@ async function buildAll() {
   await rm("dist", { recursive: true, force: true });
   console.log("building client...");
   await viteBuild();
+  if (process.env.VERCEL) {
+    console.log("Skipping server build on Vercel (using serverless functions)...");
+    return;
+  }
+
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
