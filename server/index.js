@@ -56,9 +56,9 @@ const startServer = async () => {
     return res.status(status).json({ message });
   });
 
-  if (process.env.NODE_ENV === "production" && process.env.VERCEL !== "1") {
+  if (process.env.NODE_ENV === "production") {
     serveStatic(app);
-  } else if (process.env.NODE_ENV !== "production") {
+  } else {
     // Development mode setup
     const { setupVite } = await import("./vite.js");
     await setupVite(httpServer, app);
